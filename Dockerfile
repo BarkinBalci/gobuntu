@@ -19,6 +19,8 @@ RUN chmod +x /usr/local/bin/install-go.py \
 FROM ubuntu:${UBUNTU_VERSION}
 ARG SOURCE_REPOSITORY=https://github.com/local/gobuntu
 ARG GO_TOOLS="golang.org/x/tools/gopls@latest golang.org/x/tools/cmd/goimports@latest"
+ARG AGENT_USER=agent
+ARG AGENT_GROUP=agent
 
 LABEL org.opencontainers.image.title="gobuntu" \
       org.opencontainers.image.description="Rolling Ubuntu image for Go development tools" \
@@ -66,6 +68,12 @@ RUN for tool in ${GO_TOOLS}; do \
     && go clean -cache -modcache \
     && rm -rf /tmp/* /var/tmp/*
 
+RUN groupadd --gid 0 --non-unique "${AGENT_GROUP}" \
+    && useradd --uid 0 --non-unique --gid 0 --create-home --shell /bin/bash "${AGENT_USER}" \
+    && chown -R "${AGENT_USER}:${AGENT_GROUP}" /workspace "${GOPATH}"
+
 WORKDIR /workspace
+
+USER ${AGENT_USER}
 
 CMD ["bash"]

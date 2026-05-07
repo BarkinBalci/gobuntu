@@ -1,0 +1,27 @@
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - github-actions[bot]
+  categories:
+    - title: Ubuntu Base
+      labels:
+        - ubuntu
+        - base-image
+        - docker
+        - image
+    - title: Go Environment
+      labels:
+        - go
+        - tooling
+        - dependencies
+    - title: Project Maintenance
+      labels:
+        - ci
+        - release
+        - github-actions
+        - docs
+    - title: Other Changes
+      labels:
+        - "*"
